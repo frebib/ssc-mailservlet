@@ -29,6 +29,11 @@
     <head>
         <title>Compose an Email</title>
         <%@include file="include/bootstrap.jsp" %>
+        <script>
+            $(document).ready(function() {
+                $('#compose-modal').modal('show');
+            });
+        </script>
     </head>
     <body>
         <div class="container">
@@ -39,7 +44,7 @@
                             <h3 class="modal-title">Compose an Email</h3>
                         </div>
                         <div class="modal-body">
-                            <form id="compose-form" class="modal-body">
+                            <form id="compose-form" class="modal-body" action="/send" method="post">
                                 <div class="form-horizontal form-head">
                                     <div class="form-group">
                                         <label for="to" class="col-md-2 control-label">To: </label>
@@ -87,10 +92,5 @@
                 </div>
             </div>
         </div>
-        <script>
-            $(document).ready(function() {
-                $('#compose-frame').modal('show');
-            })
-        </script>
     </body>
 </html>
