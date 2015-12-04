@@ -88,5 +88,10 @@
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function() {
+                $('#compose-frame').modal('show');
+            })
+        </script>
     </body>
 </html>

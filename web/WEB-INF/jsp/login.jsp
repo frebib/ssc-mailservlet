@@ -67,7 +67,9 @@
                         <div class="modal-body">
                             <div id="error-message" style="text-align:center"><%= err.getMessage() %></div>
                             <button type="button" class="btn btn-primary center-block" style="margin-top: 20px"
-                                    onclick="$('#error-modal').modal('hide');">Okay</button>
+                                    onclick="$('#error-modal').modal('hide');$('#login-modal').modal('show');">
+                                Okay
+                            </button>
                         </div>
                     </div>
                 </div>
