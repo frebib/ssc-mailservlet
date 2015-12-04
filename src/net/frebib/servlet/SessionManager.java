@@ -1,5 +1,6 @@
 package net.frebib.servlet;
 
+import net.frebib.event.SessionEvent;
 import net.frebib.mail.SendProvider;
 
 import javax.mail.MessagingException;
@@ -16,7 +17,7 @@ public class SessionManager extends TimerTask {
 
     private Timer timer;
     private int expireTime, warnTime;
-    private Runnable onExpire, onWarn;
+    private SessionEvent<String> onExpire, onWarn;
 
     private boolean hasTerminated;
 
@@ -56,7 +57,7 @@ public class SessionManager extends TimerTask {
      * @param onExpire listener to call (if not null) when the timeout expires
      * @return this {@code SessionManager}
      */
-    public SessionManager onExpire(Runnable onExpire) {
+    public SessionManager onExpire(SessionEvent<String> onExpire) {
         this.onExpire = onExpire;
         return this;
     }
@@ -66,7 +67,7 @@ public class SessionManager extends TimerTask {
      * @param onWarn     listener to call (if not null) when the warning is due
      * @return this {@code SessionManager}
      */
-    public SessionManager onWarn(Runnable onWarn) {
+    public SessionManager onWarn(SessionEvent<String> onWarn) {
         this.onWarn = onWarn;
         return this;
     }
@@ -93,7 +94,7 @@ public class SessionManager extends TimerTask {
         hasTerminated = true;
 
         if (onExpire != null)
-            onExpire.run();
+            onExpire.onEvent("Your session has expired.<br/>Please log in again");
 
         if (sender != null) {
             try {
@@ -121,8 +122,11 @@ public class SessionManager extends TimerTask {
         TimerTask warn = new TimerTask() {
             @Override
             public void run() {
-                if (onWarn != null)
-                    onWarn.run();
+                if (onWarn != null) {
+                    int remaining = expireTime - warnTime;
+                    String time = String.format("%d:%02d", remaining/60, remaining%60);
+                    onWarn.onEvent("You will be disconnected in " + time +" if no activity is made within that period");
+                }
             }
         };
         timer.schedule(warn, warnTime * 1000);
