@@ -20,18 +20,23 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //resp.getOutputStream().println("Login page");
         redirToLogin(req, resp);
     }
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (isLoggedIn(req)) {
-            resp.sendRedirect("/compose");
-            return;
-        }
-
         SendProvider send;
         LoginError err = null;
         Properties props = new Properties();
+
+        SessionManager sessionMgr = SessionManager.getFromSession(req.getSession());
+
+        if (sessionMgr != null) {
+            if (sessionMgr.isExpired()) {
+                resp.sendRedirect("/compose");
+                return;
+            } else
+                err = new LoginError("Session Expired!", "You have been inactive too long and your session " +
+                                                         "has expired. Please log in and try again");
+        } else
 
         if (req.getParameter("host").isEmpty()) {
             err = new LoginError("Provide a host!", "You must provide a host.");
@@ -54,8 +59,10 @@ public class LoginServlet extends HttpServlet {
                 Transport t = send.connect();
 
                 // Successfully connected.
+
                 // Store the session & redirect
-                req.getSession().setAttribute(SENDER_ATTR, send);
+                // Set the warn/expiry times to 4/5 minutes respectively
+                new SessionManager(send, 5 * 60, 4 * 60).storeInSession(req.getSession());
                 resp.sendRedirect("/compose");
                 return;
             } catch (AuthenticationFailedException e) {
@@ -71,10 +78,6 @@ public class LoginServlet extends HttpServlet {
         // Redirect to login page and show error
         req.getSession().setAttribute(LoginError.ERR_OBJ_ID, err);
         redirToLogin(req, resp);
-    }
-    private boolean isLoggedIn(HttpServletRequest req) {
-        Object o = req.getSession().getAttribute(SENDER_ATTR);
-        return !(o == null || !(o instanceof SendProvider)) && ((SendProvider) o).isConnected();
     }
 
     private void redirToLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
