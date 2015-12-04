@@ -4,4 +4,12 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+    <servlet-mapping>
+        <servlet-name>compose</servlet-name>
+        <url-pattern>/compose</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>compose</servlet-name>
+        <jsp-file>/WEB-INF/jsp/compose.jsp</jsp-file>
+    </servlet>
 </web-app>
