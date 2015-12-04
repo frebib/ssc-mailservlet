@@ -19,28 +19,28 @@
                                     <div class="form-group">
                                         <label for="to" class="col-md-2 control-label">To: </label>
 
-                                        <div class="col-md-10 col-lg-9">
+                                        <div class="col-md-9">
                                             <input id="to" name="to" type="email" class="form-control">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="cc" class="col-md-2 control-label">Cc: </label>
 
-                                        <div class="col-md-10 col-lg-9">
+                                        <div class="col-md-9">
                                             <input id="cc" name="cc" type="text" class="form-control">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="bcc" class="col-md-2 control-label">Bcc: </label>
 
-                                        <div class="col-md-10 col-lg-9">
+                                        <div class="col-md-9">
                                             <input id="bcc" name="cc" type="text" class="form-control">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="subj" class="col-md-2 control-label">Subject: </label>
 
-                                        <div class="col-md-10 col-lg-9">
+                                        <div class="col-md-9">
                                             <input id="subj" name="subj" type="text" class="form-control">
                                         </div>
                                     </div>
