@@ -1,0 +1,15 @@
+img.bg-img {
+    -webkit-filter: blur(10px);
+    opacity: 0.7;
+
+    min-width: 104%;
+    min-height: 104%;
+    z-index: -5000;
+    top: -2%;
+    left: -2%;
+    bottom: -2%;
+    right: -2%;
+    margin: auto;
+    overflow: auto;
+    position: fixed;
+}
