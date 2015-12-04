@@ -27,7 +27,6 @@ public class SessionManager extends TimerTask {
      *
      * @param sender     a {@link SendProvider} to manage
      * @param expireTime timeout to wait before disconnecting the session and notifying the listener
-     * @param onExpire   listener to call (if not null) when the timeout expires
      */
     public SessionManager(SendProvider sender, int expireTime) {
         this.sender = sender;
@@ -93,7 +92,8 @@ public class SessionManager extends TimerTask {
         if (hasTerminated) return;
         hasTerminated = true;
 
-        onExpire.run();
+        if (onExpire != null)
+            onExpire.run();
 
         if (sender != null) {
             try {
@@ -121,7 +121,8 @@ public class SessionManager extends TimerTask {
         TimerTask warn = new TimerTask() {
             @Override
             public void run() {
-                onWarn.run();
+                if (onWarn != null)
+                    onWarn.run();
             }
         };
         timer.schedule(warn, warnTime * 1000);
