@@ -78,9 +78,8 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button form="compose-form" type="button" class="btn btn-lg btn-danger pull-left">Log
-                                Out
-                            </button>
+                            <button form="compose-form" type="button" class="btn btn-lg btn-danger pull-left"
+                                    onclick="window.location='/logout'">Log Out</button>
                             <button form="compose-form" type="reset" class="btn btn-lg btn-default">Cancel</button>
                             <button form="compose-form" type="submit" class="btn btn-lg btn-primary">Send!</button>
                         </div>
