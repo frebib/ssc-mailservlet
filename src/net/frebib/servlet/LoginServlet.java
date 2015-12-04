@@ -34,8 +34,8 @@ public class LoginServlet extends HttpServlet {
             return;
         } else
 
-        if (req.getParameter("host").isEmpty()) {
-            err = new LoginError("Provide a host!", "You must provide a host.");
+        if (req.getParameter("server").isEmpty()) {
+            err = new LoginError("Provide a host!", "You must provide a sending server address.");
         } else if (req.getParameter("email").isEmpty()) {
             err = new LoginError("Provide an email address!", "You must provide an email address of " +
                     "the mail account you want to send from.");
@@ -43,7 +43,7 @@ public class LoginServlet extends HttpServlet {
             err = new LoginError("Provide a password", "You must provide a login password");
         } else {
 
-            props.setProperty("mail.smtp.host", req.getParameter("host"));
+            props.setProperty("mail.smtp.host", req.getParameter("server"));
             props.setProperty("mail.user", req.getParameter("email"));
             props.setProperty("mail.password", req.getParameter("password"));
             props.setProperty("mail.smtp.port", req.getParameter("port"));

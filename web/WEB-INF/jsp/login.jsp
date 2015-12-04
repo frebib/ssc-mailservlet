@@ -30,8 +30,8 @@
                     <input class="form-control" name="password" id="password" type="password"/>
                 </div>
                 <div class="form-group">
-                    <label for="host" class="control-label">Server Address</label>
-                    <input class="form-control" name="host" id="host"/>
+                    <label for="server" class="control-label">Server Address</label>
+                    <input class="form-control" name="server" id="server"/>
                 </div>
                 <div class="form-group">
                     <label for="port" class="control-label">Server Port</label>
