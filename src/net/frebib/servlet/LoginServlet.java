@@ -29,13 +29,9 @@ public class LoginServlet extends HttpServlet {
 
         SessionManager sessionMgr = SessionManager.getFromSession(req.getSession());
 
-        if (sessionMgr != null) {
-            if (sessionMgr.isExpired()) {
-                resp.sendRedirect("/compose");
-                return;
-            } else
-                err = new LoginError("Session Expired!", "You have been inactive too long and your session " +
-                                                         "has expired. Please log in and try again");
+        if (sessionMgr != null && !sessionMgr.isExpired()) {
+            resp.sendRedirect("/compose");
+            return;
         } else
 
         if (req.getParameter("host").isEmpty()) {
@@ -76,7 +72,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         // Redirect to login page and show error
-        req.getSession().setAttribute(LoginError.ERR_OBJ_ID, err);
+        err.setError(req.getSession());
         redirToLogin(req, resp);
     }
 
