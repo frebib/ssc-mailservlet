@@ -129,6 +129,13 @@ public class SessionManager extends TimerTask {
         timer.schedule(this, expireTime * 1000);
     }
 
+    public void dispose(HttpSession session) throws Exception {
+        hasTerminated = true;
+        timer.cancel();
+        sender.getTransport().close();
+        session.removeAttribute(SESSION_MGR);
+    }
+
     /**
      * Gets whether the {@code SendProvider} session has expired
      * @return true if expired

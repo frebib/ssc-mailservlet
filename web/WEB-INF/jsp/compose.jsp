@@ -1,3 +1,28 @@
+<%@ page import="net.frebib.servlet.LoginError" %>
+<%@ page import="net.frebib.servlet.SessionManager" %>
+<%
+    // Catch errors with not being logged in and expired sessions
+    try {
+        SessionManager mgr = SessionManager.getFromSession(session);
+        if (mgr == null) {
+            new LoginError("You must log in!", "You need to log in first before" +
+                    " you can compose any emails, silly!")
+                    .setError(session);
+            response.sendRedirect("/login");
+        } else if (mgr.isExpired() || !mgr.getSender().isConnected()) {
+            new LoginError("Session Expired!", "You have been inactive too long " +
+                    "and your session has expired.<br/>Please log in and try again")
+                    .setError(session);
+
+            mgr.dispose(session);
+            response.sendRedirect("/login");
+        }
+
+    } catch (Exception e) {
+        response.sendRedirect("/login");
+    }
+%>
+
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -54,7 +79,8 @@
                         </div>
                         <div class="modal-footer">
                             <button form="compose-form" type="button" class="btn btn-lg btn-danger pull-left">Log
-                                Out</button>
+                                Out
+                            </button>
                             <button form="compose-form" type="reset" class="btn btn-lg btn-default">Cancel</button>
                             <button form="compose-form" type="submit" class="btn btn-lg btn-primary">Send!</button>
                         </div>
