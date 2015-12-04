@@ -9,8 +9,9 @@
     </head>
     <body>
         <%
-            Object o = request.getSession().getAttribute(LoginError.ERR_OBJ_ID);
+            Object o = session.getAttribute(LoginError.ERR_OBJ_ID);
             if (o != null) {
+                session.removeAttribute(LoginError.ERR_OBJ_ID);
                 LoginError err = (LoginError) o;%>
         <div id="error-container" class="modal-dialog">
             <div id="error-title"><%= err.getTitle() %></div>
