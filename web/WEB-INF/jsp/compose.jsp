@@ -48,35 +48,41 @@
                                         <label for="to" class="col-md-2 control-label">To: </label>
 
                                         <div class="col-md-9">
-                                            <input id="to" name="to" type="email" class="form-control">
+                                            <input id="to" name="to" type="text" class="form-control"
+                                                   value="<%= session.getAttribute("to") %>">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="cc" class="col-md-2 control-label">Cc: </label>
 
                                         <div class="col-md-9">
-                                            <input id="cc" name="cc" type="text" class="form-control">
+                                            <input id="cc" name="cc" type="text" class="form-control"
+                                                   value="<%= session.getAttribute("cc")  %>">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="bcc" class="col-md-2 control-label">Bcc: </label>
 
                                         <div class="col-md-9">
-                                            <input id="bcc" name="cc" type="text" class="form-control">
+                                            <input id="bcc" name="bcc" type="text" class="form-control"
+                                                   value="<%= session.getAttribute("bcc") %>">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="subj" class="col-md-2 control-label">Subject: </label>
 
                                         <div class="col-md-9">
-                                            <input id="subj" name="subj" type="text" class="form-control">
+                                            <input id="subj" name="subj" type="text" class="form-control"
+                                                   value="<%= session.getAttribute("subj") %>">
                                         </div>
                                     </div>
                                 </div>
                                 <br>
 
                                 <div class="form-group">
-                                    <textarea id="body" name="body" class="form-control" rows="10"></textarea>
+                                    <textarea id="body" name="body" class="form-control" rows="12"><%=
+                                        session.getAttribute("body")
+                                    %></textarea>
                                 </div>
                             </form>
                         </div>

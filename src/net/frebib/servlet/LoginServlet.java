@@ -59,6 +59,8 @@ public class LoginServlet extends HttpServlet {
                 // Store the session & redirect
                 // Set the warn/expiry times to 4/5 minutes respectively
                 new SessionManager(send, 5 * 60, 4 * 60).storeInSession(req.getSession());
+                SendServlet.clearValues(req.getSession());
+
                 resp.sendRedirect("/compose");
                 return;
             } catch (AuthenticationFailedException e) {
