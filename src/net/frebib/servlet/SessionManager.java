@@ -5,8 +5,6 @@ import net.frebib.mail.SendProvider;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
