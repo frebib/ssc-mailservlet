@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SessionManager extends TimerTask {
+public class SessionManager {
     private static final String SESSION_MGR = "session-manager";
 
     private SendProvider sender;
@@ -88,26 +88,6 @@ public class SessionManager extends TimerTask {
         return this;
     }
 
-    @Override
-    public void run() {
-        if (hasTerminated) return;
-        hasTerminated = true;
-
-        if (onExpire != null)
-            onExpire.onEvent("Your session has expired.<br/>Please log in again");
-
-        if (sender != null) {
-            try {
-                SendProvider sender = getSender();
-                sender.getTransport().close();
-                sender = null;
-            } catch (MessagingException ex) {
-                ex.printStackTrace();
-            }
-        }
-        timer.cancel();
-    }
-
     /**
      * Resets the timer back to the initial
      * value and continues to count down
@@ -116,7 +96,10 @@ public class SessionManager extends TimerTask {
         if (hasTerminated) return;
 
         // Re-create the timers
-        if (timer != null) timer.cancel();
+        if (timer != null) {
+            timer.cancel();
+            timer.purge();
+        }
         timer = new Timer("SessionManager Timeout");
 
         TimerTask warn = new TimerTask() {
@@ -129,8 +112,29 @@ public class SessionManager extends TimerTask {
                 }
             }
         };
+        TimerTask expire = new TimerTask() {
+            @Override
+            public void run() {
+                if (hasTerminated) return;
+                hasTerminated = true;
+
+                if (onExpire != null)
+                    onExpire.onEvent("Your session has expired.<br/>Please log in again");
+
+                if (sender != null) {
+                    try {
+                        SendProvider sender = getSender();
+                        sender.getTransport().close();
+                        sender = null;
+                    } catch (MessagingException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                timer.cancel();
+            }
+        };
         timer.schedule(warn, warnTime * 1000);
-        timer.schedule(this, expireTime * 1000);
+        timer.schedule(expire, expireTime * 1000);
     }
 
     public void dispose(HttpSession session) throws Exception {
