@@ -10,7 +10,7 @@
                 setTimeout(function() {
                     $('#popup-modal').modal('show');
                     setTimeout(function() {
-                        $('.modal:not(#popup-modal)').modal('show');
+                        $('.modal:not(#popup-modal, #server-message)').modal('show');
             <%          if (msg.isAutoDismis()) { %>
                         setTimeout(function() {
                             $('#popup-modal').modal('hide');
@@ -32,18 +32,20 @@
                                 switch (msg.getButtons()) {
                                     case Ok: %>
                                 <button type="button" class="btn btn-primary center-block" style="margin-top: 20px"
-                                        onclick="$('.modal:not(#popup-modal)').modal('show');" data-dismiss="modal">
+                                        onclick="$('.modal:not(#popup-modal, #server-message)').modal('show');" data-dismiss="modal">
                                     Okay
                                 </button>
                                 <%      break;
                                     case YesNo: %>
                                 <div style="margin-top: 20px;text-align:center;">
                                     <button type="button" class="btn btn-default" style="display:inline-block;margin-right: 60px;"
-                                            onclick="$('.modal:not(#popup-modal)').modal('show');" data-dismiss="modal">
+                                            onclick="$('.modal:not(#popup-modal, #server-message)').modal('show');" data-dismiss="modal">
                                         No
                                     </button>
                                     <button type="button" class="btn btn-primary center-block" style="display:inline-block;"
-                                            onclick="$('.modal:not(#popup-modal)').modal('show');<%= msg.getAction() %>"
+                                            onclick="$('.modal:not(#popup-modal, #server-message)').modal('show');<%=
+                                            msg.getAction()
+                                             %>"
                                             >
                                         Yes
                                     </button>

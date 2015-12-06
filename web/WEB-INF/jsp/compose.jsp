@@ -27,9 +27,47 @@
         <title>Compose an Email</title>
         <%@include file="include/bootstrap.jsp" %>
         <script>
+            var lastTime = new Date();
+
             $(document).ready(function() {
                 $('#compose-modal').modal('show');
+
+                var evt = new EventSource("/waitforexpiry");
+                var expirePopup = $('#server-message.modal');
+
+                evt.addEventListener("warn", function(e) {
+                    expirePopup.find('.modal-title').text("Warning");
+                    expirePopup.find('.popup-message').html(e.data);
+                    expirePopup.modal('show');
+                }, false);
+                evt.addEventListener("expire", function(e) {
+                    expirePopup.find('.modal-title').text("Disconnected");
+                    expirePopup.find('.popup-message').html(e.data);
+                    expirePopup.find('button').text("Logout");
+                    $('#compose-modal').find('input, button, textarea').prop('disabled', true);
+                    expirePopup.click(function() { window.location='/logout'; })
+                               .modal('show');
+                    evt.close();
+                });
+
+                // Callback to server and reset disconnect countdown
+                $('body').bind('click dblclick mousedown keydown keypress', function(e) {
+                    var diff = new Date() - getLastTime();
+                    // If time greater than minute
+                    if (diff >= 1000 * 60) {
+                        // Update lastTime and reset counter
+                        setTimeNow();
+                        $.post("/waitforexpiry");
+                    }
+                });
             });
+
+            function getLastTime () {
+                return lastTime;
+            }
+            function setTimeNow() {
+                lastTime = new Date();
+            }
         </script>
     </head>
     <body>
@@ -90,6 +128,21 @@
                                     onclick="window.location='/logout'">Log Out</button>
                             <button form="compose-form" type="reset" class="btn btn-lg btn-default">Cancel</button>
                             <button form="compose-form" type="submit" class="btn btn-lg btn-primary">Send!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="server-message" class="modal fade" role="dialog" data-backdrop="false"
+                 data-keyboard="false">
+                <div class="modal-dialog modal-sm" style="margin-top:80px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title error-title"></h2>
+                        </div>
+                        <div class="modal-body">
+                            <div class="popup-message" style="text-align:center"></div>
+                                <button type="button" class="btn btn-primary center-block" style="margin-top: 20px"
+                                        onclick="$('#server-message').modal('hide');">Okay</button>
                         </div>
                     </div>
                 </div>
