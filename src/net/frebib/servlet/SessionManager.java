@@ -107,7 +107,7 @@ public class SessionManager {
             public void run() {
                 if (onWarn != null) {
                     int remaining = expireTime - warnTime;
-                    String time = String.format("%d:%02d", remaining/60, remaining%60);
+                    String time = String.format("%d:%02d", remaining / 60, remaining % 60);
                     onWarn.onEvent("You will be disconnected in " + time +" if no activity is made within that period");
                 }
             }
