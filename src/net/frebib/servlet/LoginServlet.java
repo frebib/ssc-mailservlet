@@ -77,9 +77,6 @@ public class LoginServlet extends HttpServlet {
     }
 
     private void redirToLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletConfig()
-                .getServletContext()
-                .getRequestDispatcher("/WEB-INF/jsp/login.jsp")
-                .include(req, resp);
+        req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").include(req, resp);
     }
 }
