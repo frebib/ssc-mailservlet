@@ -1,18 +1,16 @@
-<%@ page import="net.frebib.servlet.LoginError" %>
 <%@ page import="net.frebib.servlet.SessionManager" %>
+<%@ page import="net.frebib.view.PopupMessage" %>
 <%
     // Catch errors with not being logged in and expired sessions
     try {
         SessionManager mgr = SessionManager.getFromSession(session);
         if (mgr == null) {
-            new LoginError("You must log in!", "You need to log in first before" +
-                    " you can compose any emails, silly!")
-                    .setError(session);
+            PopupMessage.set("You must log in!", "You need to log in first before" +
+                    " you can compose any emails, silly!", "login", session);
             response.sendRedirect("/login");
         } else if (mgr.isExpired() || !mgr.getSender().isConnected()) {
-            new LoginError("Session Expired!", "You have been inactive too long " +
-                    "and your session has expired.<br/>Please log in and try again")
-                    .setError(session);
+            PopupMessage.set("Session Expired!", "You have been inactive too long and your" +
+                    " session has expired.<br/>Please log in and try again", "login", session);
 
             mgr.dispose(session);
             response.sendRedirect("/login");
@@ -91,6 +89,14 @@
                     </div>
                 </div>
             </div>
+            <%
+                Object o = session.getAttribute(PopupMessage.POPUP_MSG_ID);
+                if (o != null && o instanceof PopupMessage) {
+                    if (((PopupMessage) o).isPage("compose")) { %>
+                        <%@include file="include/popupmodal.jsp" %>
+            <%      }
+                }
+            %>
         </div>
     </body>
 </html>

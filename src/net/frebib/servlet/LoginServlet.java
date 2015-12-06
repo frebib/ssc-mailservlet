@@ -2,6 +2,7 @@ package net.frebib.servlet;
 
 import net.frebib.mail.SMTPProvider;
 import net.frebib.mail.SendProvider;
+import net.frebib.view.PopupMessage;
 
 import javax.mail.AuthenticationFailedException;
 import javax.mail.NoSuchProviderException;
@@ -24,7 +25,6 @@ public class LoginServlet extends HttpServlet {
     }
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SendProvider send;
-        LoginError err = null;
         Properties props = new Properties();
 
         SessionManager sessionMgr = SessionManager.getFromSession(req.getSession());
@@ -35,12 +35,12 @@ public class LoginServlet extends HttpServlet {
         } else
 
         if (req.getParameter("server").isEmpty()) {
-            err = new LoginError("Provide a host!", "You must provide a sending server address.");
+            PopupMessage.set("Provide a host!", "You must provide a sending server address.", "login", req.getSession());
         } else if (req.getParameter("email").isEmpty()) {
-            err = new LoginError("Provide an email address!", "You must provide an email address of " +
-                    "the mail account you want to send from.");
+            PopupMessage.set("Provide an email address!", "You must provide an email address of the mail account you want" +
+                    " to send from.", "login", req.getSession());
         } else if (req.getParameter("password").isEmpty()) {
-            err = new LoginError("Provide a password", "You must provide a login password");
+            PopupMessage.set("Provide a password", "You must provide a login password", "login", req.getSession());
         } else {
 
             props.setProperty("mail.smtp.host", req.getParameter("server"));
@@ -62,17 +62,15 @@ public class LoginServlet extends HttpServlet {
                 resp.sendRedirect("/compose");
                 return;
             } catch (AuthenticationFailedException e) {
-                err = new LoginError("Error Authenticating!", "Either the username or password you supplied was incorrect." +
-                        "<br/>Please try again.");
+                PopupMessage.set("Error Authenticating!", "Either the username or password you supplied was " +
+                        "incorrect.<br/>Please try again.", "login", req.getSession());
             } catch (NoSuchProviderException e) {
-                err = new LoginError("Invalid Hostname!", e.getMessage());
+                PopupMessage.set("Invalid Hostname!", e.getMessage(), "login", req.getSession());
             } catch (Exception e) {
-                err = new LoginError("Error Connecting!", e.getMessage());
+                PopupMessage.set("Error Connecting!", e.getMessage(), "login", req.getSession());
             }
         }
 
-        // Redirect to login page and show error
-        err.setError(req.getSession());
         redirToLogin(req, resp);
     }
 

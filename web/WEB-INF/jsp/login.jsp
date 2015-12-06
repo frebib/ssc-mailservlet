@@ -1,4 +1,3 @@
-<%@ page import="net.frebib.servlet.LoginError" %>
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -43,38 +42,12 @@
                 </div>
             </div>
             <%
-                Object o = session.getAttribute(LoginError.ERR_OBJ_ID);
-                if (o != null) {
-                    session.removeAttribute(LoginError.ERR_OBJ_ID);
-                    LoginError err = (LoginError) o;%>
-            <script>
-                setTimeout(function() {
-                    $('#error-modal').modal('show');
-                    setTimeout(function() {
-                        $('#login-modal').modal('show');
-                        setTimeout(function() {
-                            $('#error-modal').modal('hide');
-                        }, 2000);
-                    }, 2000);
-                }, 500);
-            </script>
-            <div id="error-modal" class="modal fade" role="dialog" data-backdrop="false" data-keyboard="false">
-                <div class="modal-dialog modal-sm" style="margin-top:80px;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h2 class="modal-title error-title"><%= err.getTitle() %></h2>
-                        </div>
-                        <div class="modal-body">
-                            <div id="error-message" style="text-align:center"><%= err.getMessage() %></div>
-                            <button type="button" class="btn btn-primary center-block" style="margin-top: 20px"
-                                    onclick="$('#error-modal').modal('hide');$('#login-modal').modal('show');">
-                                Okay
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <% } else { %>
+                Object o = session.getAttribute(PopupMessage.POPUP_MSG_ID);
+                if (o != null && o instanceof PopupMessage) {
+                    if (((PopupMessage) o).isPage("login")) { %>
+                        <%@include file="include/popupmodal.jsp" %>
+            <%      }
+                } else { %>
             <script>
                 $('#login-modal').modal('show');
             </script>
@@ -82,4 +55,3 @@
         </div>
     </body>
 </html>
-`
