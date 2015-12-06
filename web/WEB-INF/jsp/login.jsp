@@ -24,7 +24,7 @@
                                     <input class="form-control" name="password" id="password" type="password"/>
                                 </div>
                                 <div class="form-group">
-                                    <label for="server" class="control-label">Server Address</label>
+                                    <label for="server" class="control-label">Server Host</label>
                                     <input class="form-control" name="server" id="server"/>
                                 </div>
                                 <div class="form-group">
