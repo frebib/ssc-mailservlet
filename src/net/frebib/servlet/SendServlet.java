@@ -21,6 +21,9 @@ import java.util.List;
 @WebServlet("/send")
 public class SendServlet extends HttpServlet {
     @Override
+    /**
+     * Sends an email with data taken from the /compose form
+     */
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession sesh = req.getSession();
 
@@ -129,10 +132,23 @@ public class SendServlet extends HttpServlet {
         resp.sendRedirect("/compose");
     }
 
+    /**
+     * Clears the stored email data from a {@link HttpSession}
+     * @param session {@link HttpSession} to clear data from
+     */
     public static void clearValues(HttpSession session) {
         storeEmailValues(session, "", "", "", "", "");
     }
 
+    /**
+     * Saves email data into a persistent user session
+     * @param session {@link HttpSession} to save data to
+     * @param to recipients
+     * @param cc ccs
+     * @param bcc bccs
+     * @param subj email subject
+     * @param body email body text
+     */
     public static void storeEmailValues(HttpSession session, String to, String cc, String bcc, String subj, String body) {
         session.setAttribute("to", to);
         session.setAttribute("cc", cc);

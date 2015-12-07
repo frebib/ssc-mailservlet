@@ -10,6 +10,9 @@ import java.io.IOException;
 @WebServlet("")
 public class IndexServlet extends HttpServlet {
     @Override
+    /**
+     * Redirects / to /login
+     */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.sendRedirect("/login");
     }

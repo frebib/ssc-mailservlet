@@ -20,9 +20,16 @@ public class LoginServlet extends HttpServlet {
     private static final String SENDER_ATTR = "send-provider";
 
     @Override
+    /**
+     * Handle get for /login
+     */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         redirToLogin(req, resp);
     }
+
+    /**
+     * Handle post for /login
+     */
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SendProvider send;
         Properties props = new Properties();

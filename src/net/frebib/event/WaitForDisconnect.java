@@ -11,8 +11,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet(value = "/waitforexpiry", asyncSupported = true)
+/**
+ * Handles sending disconnection events to the client
+ */
 public class WaitForDisconnect extends HttpServlet {
     @Override
+    /**
+     * Gets an EventStream for when the Session calls an event
+     */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         resp.setContentType("text/event-stream");
@@ -54,6 +60,9 @@ public class WaitForDisconnect extends HttpServlet {
     }
 
     @Override
+    /**
+     * Updates the SessionManager and resets the timeout
+     */
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         SessionManager sessionMgr = SessionManager.getFromSession(req.getSession());
 

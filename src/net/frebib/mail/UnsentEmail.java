@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Contains all the data for an email before it is sent by a {@link SendProvider}
+ */
 public class UnsentEmail {
     private Address[] to, cc, bcc;
     private String subject, body;
@@ -54,6 +57,11 @@ public class UnsentEmail {
         this.attachments = attachments;
     }
 
+    /**
+     * Converts the {@code UnsentEmail} to a {@link Message} ready to be sent
+     * @param session the mail {@link Session} to get the sender details from
+     * @return a prepared {@link Message} containing all of the data from this {@code UnsentEmail}
+     */
     public Message prepare(Session session) throws MessagingException, IOException {
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress(session.getProperties().getProperty("mail.user")));

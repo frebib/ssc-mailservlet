@@ -4,11 +4,18 @@ import javax.mail.*;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Implements a {@link SendProvider} to send emails via the {@code SMTP} protocol
+ */
 public class SMTPProvider implements SendProvider {
     private final Properties props;
     private final Session session;
     private Transport transport;
 
+    /**
+     * Creates an {@code SMTPPRovider} with the {@link Properties} containing login details
+     * @param props login details properties
+     */
     public SMTPProvider(Properties props) throws NoSuchProviderException {
         if (props == null)
             throw new IllegalArgumentException("Properties cannot be null");

@@ -8,6 +8,10 @@ import javax.servlet.http.HttpSession;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Stores a {@link SendProvider} and times it out after a specified timeout.
+ * Also provides {@link SessionEvent} callbacks for warning and expiry session events
+ */
 public class SessionManager {
     private static final String SESSION_MGR = "session-manager";
 
